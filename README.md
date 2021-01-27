@@ -45,7 +45,7 @@ TBC
 ## System-on-chip Architecture and design
 - The architecture of the system is depicted here. A component named Bus master allows a computer to interact with the system through USB/Serial. This component acts a master of a simple bus : this required to design a simple protocol. The UART we are relying on is borrowed from excellent Pr Pong Chu books. Thanks to him !
 
-- The core is not pipelined today and each instruction takes two cycles to complete : its performance is 25M instructions per seconds.
+- The core is not pipelined today and each instruction takes two cycles to complete : its performance is 25 Mips on Artix7 clocked at 100Mhz.
 
 - The VHDL design style of the core is deliberately **not** structural : the core acts as a command/instruction interpreter, similar to the ISS, which is easier to understand for students.
 
