@@ -21,7 +21,30 @@ TBC
 - The VHDL design style of the core is deliberately **not** structural : the core acts as a command/instruction interpreter, similar to the ISS, which is easier to understand for students.
 
 ### Memory map
-TBC
+```vhdl
+-- memory map description :
+constant ADDR_REG_INFO     : std_logic_vector(15 downto 0) := x"0000";
+constant ADDR_REG_DUMMY    : std_logic_vector(15 downto 0) := x"0001";
+constant ADDR_CORE_CONTROL : std_logic_vector(15 downto 0) := x"0002";
+constant ADDR_CORE_STATUS  : std_logic_vector(15 downto 0) := x"0003";
+
+constant ADDR_BASE_CODE    : std_logic_vector(15 downto 0) := x"1000";
+constant ADDR_LAST_CODE    : std_logic_vector(15 downto 0) := x"13ff";
+constant ADDR_BASE_DATA    : std_logic_vector(15 downto 0) := x"2400";
+constant ADDR_LAST_DATA    : std_logic_vector(15 downto 0) := x"27ff";
+```
+Note : Nothing in the REG_INFO so far.
+
+**REG_CONTROL** : address **0x0002**
+- bit 2 : start
+
+**REG_STATUS** : address **0x0003**
+- bit 0 : stopped
+
+**RAM code** : addresses **0x1000...0x13ff*
+
+**RAM data** : addresses **0x2400...0x27ff*
+
 
 ## How to synthesize ?
 
