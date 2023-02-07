@@ -55,9 +55,8 @@ The instruction set resembles MIPS-like ISA.
 - The core is not pipelined today and each instruction takes two cycles to complete : its performance is 25 Mips on Artix7 clocked at 100Mhz.
 
 ### Binary format & opcodes
-[[doc/format.png|width=100px]]
-![alt text](doc/format.png "binary format")
-![alt text](doc/simji_opcode.png "simji_opcodes")
+![binary format](doc/format.png "binary format")
+![opcodes](doc/simji_opcode.png "simji_opcodes")
 
 
 ### VHDL coding
