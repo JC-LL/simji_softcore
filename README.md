@@ -1,5 +1,18 @@
 # Simji softcore & System-on-Chip
 
+The present project is a simple SoC, depicted below, centered around a home-made processor, named Simji.
+
+### System-on-chip architecture
+A component named Bus master allows a computer to interact with the system through USB/Serial.
+
+![alt text](doc/archi_soc.png "SoC architecture")
+
+
+### Memory map
+
+![alt text](doc/memory_map.png "Memory Map")
+
+## Softcore
 Simji softcore is a simple 32-bits softcore written in VHDL.
 
 Its instruction set is reduced and simple to understand: less than 20 instructions.
@@ -42,6 +55,7 @@ The instruction set resembles MIPS-like ISA.
 - The core is not pipelined today and each instruction takes two cycles to complete : its performance is 25 Mips on Artix7 clocked at 100Mhz.
 
 ### Binary format & opcodes
+[[doc/format.png|width=100px]]
 ![alt text](doc/format.png "binary format")
 ![alt text](doc/simji_opcode.png "simji_opcodes")
 
@@ -51,16 +65,6 @@ The instruction set resembles MIPS-like ISA.
 - The VHDL design style of the core is deliberately **not** structural, buts is based on a finite-state machine : the core acts as a command/instruction interpreter, similar to the ISS, which is easier to understand for students. It underlines the power of RTL _inference_.
 
 ![alt text](doc/embryonic_simji.png "FSM style")
-
-## System-on-chip Architecture and design
-- The architecture of the system is depicted here. A component named Bus master allows a computer to interact with the system through USB/Serial. This component acts a master of a simple bus : this required to design a simple protocol.
-
-![alt text](doc/archi_soc.png "SoC architecture")
-
-
-### Memory map
-
-![alt text](doc/memory_map.png "Memory Map")
 
 ## How to synthesize ?
 
