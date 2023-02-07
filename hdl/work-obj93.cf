@@ -1,0 +1,7 @@
+v 4
+file . "simji_core.vhd" "d5bcef0df09176b350f494ad79a8860448ea7c14" "20230126120008.844":
+  entity simji_core at 1( 0) + 0 on 15;
+  architecture rtl of simji_core at 17( 344) + 0 on 16;
+file . "ip_simji.vhd" "b2268448db56631ddaa5e4393f9a7eca04d41a12" "20230126100906.366":
+  entity ip_process at 1( 0) + 0 on 13;
+  architecture rtl of ip_process at 25( 693) + 0 on 14;

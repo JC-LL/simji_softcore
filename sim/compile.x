@@ -1,22 +1,37 @@
-rm -rf *.cf
-echo "=> compiling board LEDs and 7-segments"
-ghdl -a ../hdl/board_related/seven_seg_controler_pkg.vhd
-ghdl -a ../hdl/board_related/seven_seg_controler.vhd
-ghdl -a ../hdl/board_related/slow_ticker.vhd
-echo "=> compiling UART"
-ghdl -a ../hdl/uart_bus_master/mod_m_counter.vhd
-ghdl -a ../hdl/uart_bus_master/flag_buf.vhd
-ghdl -a ../hdl/uart_bus_master/fifo.vhd
-ghdl -a ../hdl/uart_bus_master/uart_tx.vhd
-ghdl -a ../hdl/uart_bus_master/uart_rx.vhd
-ghdl -a ../hdl/uart_bus_master/uart.vhd
-echo "=> compiling UART bus master"
-ghdl -a ../hdl/uart_bus_master/uart_bus_master_controler.vhd
-ghdl -a ../hdl/uart_bus_master/uart_bus_master.vhd
-echo "=> compiling simji core"
-ghdl -a ../hdl/simji_core/ram.vhd
-ghdl -a ../hdl/simji_core/simji_core.vhd
-echo "=> compiling simji soc"
-ghdl -a ../hdl/simji_soc/simji_soc.vhd
-echo "=> compiling top level"
-ghdl -a ../hdl/top_level/top.vhd
+echo "cleaning"
+rm -rf *.cf *.o soc_tb.ghw soc_tb
+
+echo "compiling"
+ghdl -a --work=ip_lib --std=08 ../hdl/bram.vhd
+ghdl -a --work=ip_lib --std=08 ../hdl/fifo.vhd
+ghdl -a --work=ip_lib --std=08 ../hdl/ip_bram.vhd
+ghdl -a --work=ip_lib --std=08 ../hdl/ip_leds.vhd
+ghdl -a --work=ip_lib --std=08 ../hdl/ip_switches.vhd
+ghdl -a --work=ip_lib --std=08 ../hdl/simji_core.vhd
+ghdl -a --work=ip_lib --std=08 ../hdl/ip_simji.vhd
+
+echo "warning uart_cst_SIM used"
+ghdl -a --work=uart_lib --std=08 ../hdl/uart_cst_SIM.vhd
+ghdl -a --work=uart_lib --std=08 ../hdl/receiver.vhd
+ghdl -a --work=uart_lib --std=08 ../hdl/sender.vhd
+ghdl -a --work=uart_lib --std=08 ../hdl/tick_gen.vhd
+ghdl -a --work=uart_lib --std=08 ../hdl/uart.vhd
+ghdl -a --work=uart_lib --std=08 ../hdl/uart_api.vhd
+
+ghdl -a --work=uart_bus_master_lib --std=08 ../hdl/uart_bus_master_fsm.vhd
+ghdl -a --work=uart_bus_master_lib --std=08 ../hdl/uart_bus_master.vhd
+
+ghdl -a --std=08 --work=soc_lib ../hdl/soc_pkg.vhd
+ghdl -a --std=08 --work=soc_lib ../hdl/soc.vhd
+
+echo "OLD tb"
+ghdl -a --std=08 ../sim/soc_tb.vhd
+
+echo "elaborating"
+ghdl -e --std=08 soc_tb
+
+echo "simulating"
+ghdl -r --std=08 soc_tb --wave=soc_tb.ghw
+
+echo "viewing"
+gtkwave soc_tb.ghw soc_tb.sav
