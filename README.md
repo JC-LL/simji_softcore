@@ -1,4 +1,4 @@
-# Simji softcore
+# Simji softcore & System-on-Chip
 
 Simji softcore is a simple 32-bits softcore written in VHDL.
 
@@ -39,41 +39,28 @@ The instruction set resembles MIPS-like ISA.
 | scall n         | system call |      |
 | stop            |             |      |
 
-### Binary format
-TBC
-
-## System-on-chip Architecture and design
-- The architecture of the system is depicted here. A component named Bus master allows a computer to interact with the system through USB/Serial. This component acts a master of a simple bus : this required to design a simple protocol. The UART we are relying on is borrowed from excellent Pr Pong Chu [books](https://academic.csuohio.edu/chu_p/rtl/index.html). Thanks to him !
-
 - The core is not pipelined today and each instruction takes two cycles to complete : its performance is 25 Mips on Artix7 clocked at 100Mhz.
 
-- The VHDL design style of the core is deliberately **not** structural : the core acts as a command/instruction interpreter, similar to the ISS, which is easier to understand for students. It underlines the power of RTL _inference_.
+### Binary format & opcodes
+![alt text](doc/format.png "binary format")
+![alt text](doc/simji_opcode.png "simji_opcodes")
+
+
+### VHDL coding
+
+- The VHDL design style of the core is deliberately **not** structural, buts is based on a finite-state machine : the core acts as a command/instruction interpreter, similar to the ISS, which is easier to understand for students. It underlines the power of RTL _inference_.
+
+![alt text](doc/embryonic_simji.png "FSM style")
+
+## System-on-chip Architecture and design
+- The architecture of the system is depicted here. A component named Bus master allows a computer to interact with the system through USB/Serial. This component acts a master of a simple bus : this required to design a simple protocol.
+
+![alt text](doc/archi_soc.png "SoC architecture")
+
 
 ### Memory map
-```vhdl
--- memory map description :
-constant ADDR_REG_INFO     : std_logic_vector(15 downto 0) := x"0000";
-constant ADDR_REG_DUMMY    : std_logic_vector(15 downto 0) := x"0001";
-constant ADDR_CORE_CONTROL : std_logic_vector(15 downto 0) := x"0002";
-constant ADDR_CORE_STATUS  : std_logic_vector(15 downto 0) := x"0003";
 
-constant ADDR_BASE_CODE    : std_logic_vector(15 downto 0) := x"1000";
-constant ADDR_LAST_CODE    : std_logic_vector(15 downto 0) := x"13ff";
-constant ADDR_BASE_DATA    : std_logic_vector(15 downto 0) := x"2400";
-constant ADDR_LAST_DATA    : std_logic_vector(15 downto 0) := x"27ff";
-```
-Note : Nothing in the REG_INFO so far.
-
-**REG_CONTROL** : address **0x0002**
-- bit 2 : start
-
-**REG_STATUS** : address **0x0003**
-- bit 0 : stopped
-
-**RAM code** : addresses **0x1000...0x13ff*
-
-**RAM data** : addresses **0x2400...0x27ff*
-
+![alt text](doc/memory_map.png "Memory Map")
 
 ## How to synthesize ?
 
@@ -90,17 +77,12 @@ djtgcfg -d NexysA7 prog -i 0 -f ../syn/SYNTH_OUTPUTS/top.bit
 ```
 
 ## How to interact with Simji softcore ?
-A simple Ruby script is provided to show how to :
+Simple Ruby scripts are provided to show how to :
 - read and write a program in Simji memories
 - start the processor
 - inspect its status
+- etc
 
-The Embedded software compute the square of 3x3 matrix and checks against the know result. This demonstrates a full observability of the system through the serial bus, from your laptop.
-
-```bash
-cd esw
-ruby squared_matrix.rb
-```
 
 ## Contact
 Simji by itself is a support tool for Digital Design Courses at ENSTA Bretagne, Brest France.
